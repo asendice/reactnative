@@ -8,6 +8,15 @@ import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-nativ
 import { createStackNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
+import { connect } from 'react-redux';
+import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+
+const mapDispatchToProps = {
+    fetchCampsites,
+    fetchComments,
+    fetchPartners,
+    fetchPromotions
+};
 
 const AboutNavigator = createStackNavigator(
     {
@@ -192,6 +201,12 @@ const MainNavigator = createDrawerNavigator(
 // Main will be a container component that will be the parent to presentational components
 class Main extends Component {
     
+    componentDidMount() {
+        this.props.fetchCampsites();
+        this.props.fetchPromotions();
+        this.props.fetchPartners();
+        this.props.fetchComments();
+    }
 
     render() {
         return(
@@ -236,4 +251,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Main; 
+export default connect(null, mapDispatchToProps)(Main); 
